@@ -8,7 +8,7 @@ def cancel(log, uId, date, startTime, lastTime):
 	data = date + '@' + uId
 	for i in range(1, lastTime+1):
 		if not log[int(startTime)+i-1]:
-			print 'Error: the booking being cancelled does not exist!\n'
+			print 'Error: the booking being cancelled does not exist!'
 			return
 		for d in log[int(startTime)+i-1]:
 			if date in d:
@@ -31,9 +31,9 @@ def cancel(log, uId, date, startTime, lastTime):
 						money.append(mres[0] + '@' + mres[1] + '@' + mres[2] + '@' + mres[3] + '@' + mres[4])
 
 			else:
-				print 'Error: the cancelling is invalid!\n'
+				print 'Error: the cancelling is invalid!'
 				#return False
-	print 'Success: the cancelling is accepted!\n'
+	print 'Success: the cancelling is accepted!'
 	#return True
 
 def calculateRent(day, rentTime):
@@ -62,7 +62,7 @@ def book(log, uId, date, startTime, lastTime, playgroundId):
 	for i in range(1, lastTime+1):
 		for d in log[int(startTime)+i-1]:
 			if date in d:
-				print 'Error: the booking conflicts with existing bookings!\n'
+				print 'Error: the booking conflicts with existing bookings!'
 				return
 		data = date + '@' + uId
 		log[int(startTime)+i-1].append(data)
@@ -87,24 +87,16 @@ def book(log, uId, date, startTime, lastTime, playgroundId):
 	#data = date + '@' + uId
 	#log[int(startTime)].append(data)
 
-	print 'Success: the booking is accepted!\n'
+	print 'Success: the booking is accepted!'
 
 
 
 def printMoney():
-	'''
-	mindate = '2018-06-10'
-	print 'playground A:\n'
-	for i in logA:
-		if min(i) > mindate:
-			mindate = min(i)
-	mindate = mindate.split('@')[0]
-	for i in logA:
-		for j in i:
-			if mindate in j:
-	'''
-	print 'log:', logA
-	print money
+	money = sorted(money)
+	for i in money:
+		if i.startswith('A'):
+
+
 
 
 fine = []
@@ -130,7 +122,9 @@ while True:
 	#userID = str[0]
 	#year = str[1]
 
-	if len(inputString) == 4:
+	if len(inputString[0]) > 1:
+		print 'error: the booking is invalid!'
+	elif len(inputString) == 4:
 		#book
 		uId = inputString[0]
 		date = inputString[1]
@@ -140,7 +134,7 @@ while True:
 		playgroundId = inputString[3]
 
 		if lastTime == 0:
-			print 'Error: the booking is invalid!\n'
+			print 'Error: the booking is invalid!'
 			continue
 
 		if startTime[1] != '00':
@@ -182,9 +176,7 @@ while True:
 		fineRecord = ''
 		fine.append(fineRecord)
 
-	elif len(inputString) == 1:
+	else:
 		#print
 		printMoney()
-	else:
-		print 'error'
 		
