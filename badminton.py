@@ -1,10 +1,10 @@
 from datetime import datetime
 import time
 
-#day = date.weekday()
-
-
 def cancel(log, uId, date, startTime, lastTime):
+	format = '%Y-%m-%d'
+	day = datetime.strptime(date, format).weekday()
+
 	data = date + '@' + uId
 	for i in range(1, lastTime+1):
 		if not log[int(startTime)+i-1]:
@@ -12,15 +12,48 @@ def cancel(log, uId, date, startTime, lastTime):
 			return
 		for d in log[int(startTime)+i-1]:
 			if date in d:
-				log[int(startTime)].remove(data)
-				#print 'Success: the cancelling is accepted!\n'
-				#return True
+				log[int(startTime)+i-1].remove(d)
+				
+				rent = calculateRent(day, int(startTime)+i-1)
+				if day < 6:
+					fine = rent / 2
+				else:
+					fine = rent / 4
+
+				moneyLog = playgroundId + '@' + date + '@' + str(int(startTime)+i-1)
+				for m in money:
+					if moneyLog in m:
+						mres = m.split('@')
+						#mres[3] = str(int(mres[3]) - rent)
+						mres[3] = str('0')
+						mres[4] = str(fine)
+						money.remove(m)
+						money.append(mres[0] + '@' + mres[1] + '@' + mres[2] + '@' + mres[3] + '@' + mres[4])
 
 			else:
 				print 'Error: the cancelling is invalid!\n'
 				#return False
 	print 'Success: the cancelling is accepted!\n'
 	#return True
+
+def calculateRent(day, rentTime):
+	if day > 5:
+		if rentTime < 12:
+			rent = 40
+		elif rentTime < 18:
+			rent = 50
+		else:
+			rent = 60
+	else:
+		if rentTime < 12:
+			rent = 30
+		elif rentTime < 18:
+			rent = 50
+		elif rentTime < 20:
+			rent = 80
+		else:
+			rent = 60
+	return rent
 
 def book(log, uId, date, startTime, lastTime, playgroundId):
 	format = '%Y-%m-%d'
@@ -31,39 +64,29 @@ def book(log, uId, date, startTime, lastTime, playgroundId):
 			if date in d:
 				print 'Error: the booking conflicts with existing bookings!\n'
 				return
+		data = date + '@' + uId
+		log[int(startTime)+i-1].append(data)
 	
 	#calculate rent
 	for i in range(1, lastTime+1):
-		if day > 5:
-			if int(startTime)+i-1 < 12:
-				rent = 40
-			elif int(startTime)+i-1 < 18:
-				rent = 50
-			else:
-				rent = 60
-		else:
-			if int(startTime)+i-1 < 12:
-				rent = 30
-			elif int(startTime)+i-1 < 18:
-				rent = 50
-			elif int(startTime)+i-1 < 20:
-				rent = 80
-			else:
-				rent = 60
-
+		rent = calculateRent(day, int(startTime)+i-1)
 		moneyLog = playgroundId + '@' + date + '@' + str(int(startTime)+i-1)
 		if not money:
 			money.append(moneyLog + '@' + str(rent) + '@0')
 		else:
 			for m in money:
 				if moneyLog in m:
-					m.split('@')[4] = str(rent + int(m.split('@')[4]))
-				else:
-				#money.append(playgroundId + '@' + date + '@' + str(int(startTime)+i-1) + '@' + str(rent) + '@0')
-					money.append(moneyLog + '@' + str(rent) + '@0')
+					mres = m.split('@')
+					mres[3] = str(rent)
+					money.remove(m)
+					money.append(mres[0] + '@' + mres[1] + '@' + mres[2] + '@' + mres[3] + '@' + mres[4])
+					#m.split('@')[3] = str(rent + int(m.split('@')[3]))
+					continue
+			money.append(moneyLog + '@' + str(rent) + '@0')
 
-	data = date + '@' + uId
-	log[int(startTime)].append(data)
+	#data = date + '@' + uId
+	#log[int(startTime)].append(data)
+
 	print 'Success: the booking is accepted!\n'
 
 
@@ -80,6 +103,7 @@ def printMoney():
 		for j in i:
 			if mindate in j:
 	'''
+	print 'log:', logA
 	print money
 
 
