@@ -92,14 +92,40 @@ def book(log, uId, date, startTime, lastTime, playgroundId):
 
 
 def printMoney():
-	print money
 	money = sorted(money)
-	print '收入汇总\n---'
-	print '场地:A'
+	print 'total\n---'
+	print 'place:A'
 	for i in money:
 		if i.startswith('A'):
-
-
+			res = i.split('@')
+			if res[4] == '0':
+				print res[1], res[2], res[3]
+			else:
+				print res[1], res[2], 'fine' + res[4]
+	print 'place:B'
+	for i in money:
+		if i.startswith('B'):
+			res = i.split('@')
+			if res[4] == '0':
+				print res[1], res[2], res[3]
+			else:
+				print res[1], res[2], 'fine' + res[4]
+	print 'place:C'
+	for i in money:
+		if i.startswith('C'):
+			res = i.split('@')
+			if res[4] == '0':
+				print res[1], res[2], res[3]
+			else:
+				print res[1], res[2], 'fine' + res[4]
+	print 'place:D'
+	for i in money:
+		if i.startswith('D'):
+			res = i.split('@')
+			if res[4] == '0':
+				print res[1], res[2], res[3]
+			else:
+				print res[1], res[2], 'fine' + res[4]
 
 
 fine = []
@@ -125,7 +151,7 @@ while True:
 	#userID = str[0]
 	#year = str[1]
 
-	if len(inputString[0]) > 1:
+	if len(inputString[0]) > 1 and not inputString[1]:
 		print 'error: the booking is invalid!'
 	elif len(inputString) == 4:
 		#book
