@@ -92,7 +92,10 @@ def book(log, uId, date, startTime, lastTime, playgroundId):
 
 
 def printMoney():
+	print money
 	money = sorted(money)
+	print '收入汇总\n---'
+	print '场地:A'
 	for i in money:
 		if i.startswith('A'):
 
