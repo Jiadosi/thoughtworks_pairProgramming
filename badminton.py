@@ -1,18 +1,29 @@
+from datetime import datetime
+import time
 
-#def Cancel(date, startTime, playgroundId):
+#day = date.weekday()
 
-def book(log, date, startTime, lastTime):
+def cancel(log, uId, date, startTime, lastTime):
+	data = date + uId
 	for i in range(1, lastTime+1):
-		if date in log[int(startTime)+i-1]:
-			print 'Error: the booking conflicts with existing bookings!\n'
-			return
+		if data in log[int(startTime)+i-1]:
+			print 'Success: the cancelling is accepted!\n'
+			log[int(startTime)].remove(data)
+		else:
+			print 'Error: the cancelling is invalid!\n'
+
+def book(log, uId, date, startTime, lastTime):
+	for i in range(1, lastTime+1):
+		for d in log[int(startTime)+i-1]:
+			if date in d:
+				print 'Error: the booking conflicts with existing bookings!\n'
+				return
 	print 'Success: the booking is accepted!\n'
-	log[int(startTime)].append(date)
+	data = date + uId
+	log[int(startTime)].append(data)
 
-
-
-#def Print():
-
+def Print():
+	
 
 log = []
 logA = dict()
@@ -37,6 +48,7 @@ while True:
 
 	if len(str) == 4:
 		#book
+		uId = str[0]
 		date = str[1]
 		startTime = str[2].split('~')[0].split(':')#string befor :
 		endTime = str[2].split('~')[1].split(':')
@@ -50,17 +62,31 @@ while True:
 			print 'the booking is invalid, playgroundId'
 			continue
 		if playgroundId == 'A':
-			book(logA, date, startTime[0], lastTime)
+			book(logA, uId, date, startTime[0], lastTime)
 		elif playgroundId == 'B':
-			book(logB, date, startTime[0], lastTime)
+			book(logB, uId, date, startTime[0], lastTime)
 		elif playgroundId == 'C':
-			book(logC, date, startTime[0], lastTime)
+			book(logC, uId, date, startTime[0], lastTime)
 		else:
-			book(logD, date, startTime[0], lastTime)
+			book(logD, uId, date, startTime[0], lastTime)
 
 	elif len(str) == 5:
 		#cancel
-		print 'cancel'
+		uId = str[0]
+		date = str[1]
+		startTime = str[2].split('~')[0].split(':')#string befor :
+		endTime = str[2].split('~')[1].split(':')
+		lastTime = int(endTime[0]) - int(startTime[0])
+		playgroundId = str[3]
+		if playgroundId == 'A':
+			cancel(logA, uId, date, startTime[0], lastTime)
+		elif playgroundId == 'B':
+			cancel(logB, uId, date, startTime[0], lastTime)
+		elif playgroundId == 'C':
+			cancel(logC, uId, date, startTime[0], lastTime)
+		else:
+			cancel(logD, uId, date, startTime[0], lastTime)
+
 	elif len(str) == 1:
 		#print
 		print 'print'
