@@ -1,36 +1,14 @@
 
-#def Cancel(date, startTime, pId):
+#def Cancel(date, startTime, playgroundId):
 
-def Book(date, startTime, lastTime, pId):
-	if pId == 'A':
-		for i in range(1, lastTime+1):
-			if date in logA[int(startTime)+i-1]:
-				print 'Error: the booking conflicts with existing bookings!\n'
-				return
-		print 'Success: the booking is accepted!\n'
-		logA[int(startTime)].append(date)
-	elif pId == 'B':
-		for i in range(1, lastTime+1):
-			if date in logB[int(startTime)+i-1]:
-				print 'Error: the booking conflicts with existing bookings!\n'
-				return
-		print 'Success: the booking is accepted!\n'
-		logB[int(startTime)].append(date)
-	elif pId == 'C':
-		for i in range(1, lastTime+1):
-			if date in logC[int(startTime)+i-1]:
-				print 'Error: the booking conflicts with existing bookings!\n'
-				return
-		print 'Success: the booking is accepted!\n'
-		logC[int(startTime)].append(date)
-	else:
-		for i in range(1, lastTime+1):
-			if date in logD[int(startTime)+i-1]:
-				print 'Error: the booking conflicts with existing bookings!\n'
-				return
-		print 'Success: the booking is accepted!\n'
-		logD[int(startTime)].append(date)
-	
+def book(log, date, startTime, lastTime):
+	for i in range(1, lastTime+1):
+		if date in log[int(startTime)+i-1]:
+			print 'Error: the booking conflicts with existing bookings!\n'
+			return
+	print 'Success: the booking is accepted!\n'
+	log[int(startTime)].append(date)
+
 
 
 #def Print():
@@ -63,15 +41,22 @@ while True:
 		startTime = str[2].split('~')[0].split(':')#string befor :
 		endTime = str[2].split('~')[1].split(':')
 		lastTime = int(endTime[0]) - int(startTime[0])
-		pId = str[3]
+		playgroundId = str[3]
 
 		if startTime[1] != '00':
 			print 'the booking is invalid, not int'
 			break
-		if pId is not 'A' and not 'B' and not 'C' and not 'D':
-			print 'the booking is invalid, pId'
+		if playgroundId is not 'A' and not 'B' and not 'C' and not 'D':
+			print 'the booking is invalid, playgroundId'
 			continue
-		Book(date, startTime[0], lastTime, pId)
+		if playgroundId == 'A':
+			book(logA, date, startTime[0], lastTime)
+		elif playgroundId == 'B':
+			book(logB, date, startTime[0], lastTime)
+		elif playgroundId == 'C':
+			book(logC, date, startTime[0], lastTime)
+		else:
+			book(logD, date, startTime[0], lastTime)
 
 	elif len(str) == 5:
 		#cancel
