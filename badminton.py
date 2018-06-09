@@ -9,6 +9,29 @@ def Book(date, startTime, lastTime, pId):
 				return
 		print 'Success: the booking is accepted!\n'
 		logA[int(startTime)].append(date)
+	elif pId == 'B':
+		for i in range(1, lastTime+1):
+			if date in logB[int(startTime)+i-1]:
+				print 'Error: the booking conflicts with existing bookings!\n'
+				return
+		print 'Success: the booking is accepted!\n'
+		logB[int(startTime)].append(date)
+	elif pId == 'C':
+		for i in range(1, lastTime+1):
+			if date in logC[int(startTime)+i-1]:
+				print 'Error: the booking conflicts with existing bookings!\n'
+				return
+		print 'Success: the booking is accepted!\n'
+		logC[int(startTime)].append(date)
+	else:
+		for i in range(1, lastTime+1):
+			if date in logD[int(startTime)+i-1]:
+				print 'Error: the booking conflicts with existing bookings!\n'
+				return
+		print 'Success: the booking is accepted!\n'
+		logD[int(startTime)].append(date)
+	
+
 
 #def Print():
 
@@ -45,9 +68,9 @@ while True:
 		if startTime[1] != '00':
 			print 'the booking is invalid, not int'
 			break
-		if pId is not 'A' and 'B' and 'C' and 'D':
+		if pId is not 'A' and not 'B' and not 'C' and not 'D':
 			print 'the booking is invalid, pId'
-			break
+			continue
 		Book(date, startTime[0], lastTime, pId)
 
 	elif len(str) == 5:
